@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Dichotomie.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dichotomie
 {
@@ -22,6 +20,10 @@ namespace Dichotomie
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // SQL Server
+            var connectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            services.AddDbContext<DichotomieContext>(options => options.UseSqlServer(connectionString));
+
             services.AddMvc();
         }
 
