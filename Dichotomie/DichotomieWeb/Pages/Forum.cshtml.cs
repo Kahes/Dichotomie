@@ -14,7 +14,7 @@ namespace DichotomieWeb.Pages
     [Authorize]
     public class ForumModel : PageModel
     {
-        public ApplicationDbContext _context;
+        private ApplicationDbContext _context;
 
         public List<Category> _categories;
 
