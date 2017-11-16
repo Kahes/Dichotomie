@@ -11,7 +11,7 @@ using System;
 namespace DichotomieWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171115095535_Initial")]
+    [Migration("20171116145933_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,25 +23,25 @@ namespace DichotomieWeb.Data.Migrations
 
             modelBuilder.Entity("Dichotomie.Models.Category", b =>
                 {
-                    b.Property<string>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<int?>("ParentCategoryId");
 
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Dichotomie.Models.Reply", b =>
                 {
-                    b.Property<string>("ReplieId")
+                    b.Property<int>("ReplieId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationDate");
@@ -52,7 +52,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.Property<DateTime>("ModificationDate");
 
-                    b.Property<string>("TopicFK");
+                    b.Property<int>("TopicFK");
 
                     b.Property<string>("UserFK");
 
@@ -67,10 +67,10 @@ namespace DichotomieWeb.Data.Migrations
 
             modelBuilder.Entity("Dichotomie.Models.Topic", b =>
                 {
-                    b.Property<string>("TopicId")
+                    b.Property<int>("TopicId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CategoryFK");
+                    b.Property<int>("CategoryFK");
 
                     b.Property<DateTime>("CreationDate");
 
@@ -266,11 +266,19 @@ namespace DichotomieWeb.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Dichotomie.Models.Category", b =>
+                {
+                    b.HasOne("Dichotomie.Models.Category", "ParentCategory")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("ParentCategoryId");
+                });
+
             modelBuilder.Entity("Dichotomie.Models.Reply", b =>
                 {
                     b.HasOne("Dichotomie.Models.Topic", "Topic")
                         .WithMany("Replies")
-                        .HasForeignKey("TopicFK");
+                        .HasForeignKey("TopicFK")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DichotomieWeb.Data.ApplicationUser", "User")
                         .WithMany("Replies")
@@ -281,7 +289,8 @@ namespace DichotomieWeb.Data.Migrations
                 {
                     b.HasOne("Dichotomie.Models.Category", "Category")
                         .WithMany("Topics")
-                        .HasForeignKey("CategoryFK");
+                        .HasForeignKey("CategoryFK")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DichotomieWeb.Data.ApplicationUser", "User")
                         .WithMany("Topics")

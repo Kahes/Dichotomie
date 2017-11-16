@@ -8,7 +8,7 @@ namespace Dichotomie.Models
     public class Reply
     {
         [Key]
-        public string ReplieId { get; set; }
+        public int ReplieId { get; set; }
 
         [Required]
         [MaxLength(250)]
@@ -27,6 +27,6 @@ namespace Dichotomie.Models
 
         [ForeignKey(nameof(TopicFK))]
         public Topic Topic { get; set; }
-        public string TopicFK { get; set; }
+        public int TopicFK { get; set; }
     }
 }

@@ -1,0 +1,31 @@
+﻿@page
+@using System.Linq
+@using Microsoft.EntityFrameworkCore;
+@model DichotomieWeb.Pages.ForumModel
+@{
+    ViewData["Title"] = "Forum";
+}
+
+@inject ApplicationDbContext context
+
+<h2>Forum</h2>
+
+<ul>
+    @foreach (var category in @context.Categories.Include(i => i.SubCategories).Where(w => w.ParentCategoryId == null))
+    {
+        <li>
+            @category.Name
+            <ul>
+                @foreach (var subCategory in category.SubCategories)
+                {
+                    <li><a>@subCategory.Name</a></li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
