@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using DichotomieWeb.Data;
 using Microsoft.EntityFrameworkCore;
+using Dichotomie.Models;
 
 namespace DichotomieWeb.Pages
 {
@@ -15,12 +16,15 @@ namespace DichotomieWeb.Pages
     {
         public ApplicationDbContext _context;
 
+        public List<Category> _categories;
+
         public ForumModel(ApplicationDbContext context)
         {
             _context = context;
         }
         public void OnGet()
         {
+            _categories = _context.Categories.Include(i => i.SubCategories).Where(w => w.ParentCategoryId == null).ToList();
         }
     }
 }

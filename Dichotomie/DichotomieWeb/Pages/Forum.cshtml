@@ -1,17 +1,13 @@
 ﻿@page
-@using System.Linq
-@using Microsoft.EntityFrameworkCore;
 @model DichotomieWeb.Pages.ForumModel
 @{
     ViewData["Title"] = "Forum";
 }
 
-@inject ApplicationDbContext context
-
 <h2>Forum</h2>
 
 <ul>
-    @foreach (var category in @context.Categories.Include(i => i.SubCategories).Where(w => w.ParentCategoryId == null))
+    @foreach (var category in Model._categories)
     {
         <li>
             @category.Name
