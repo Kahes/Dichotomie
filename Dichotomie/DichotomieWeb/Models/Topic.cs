@@ -9,7 +9,7 @@ namespace Dichotomie.Models
     public class Topic
     {
         [Key]
-        public string TopicId { get; set; }
+        public int TopicId { get; set; }
 
         [Required]
         [MaxLength(250)]
@@ -42,7 +42,7 @@ namespace Dichotomie.Models
 
         [ForeignKey(nameof(CategoryFK))]
         public Category Category { get; set; }
-        public string CategoryFK { get; set; }
+        public int CategoryFK { get; set; }
 
         public List<Reply> Replies { get; set; }
     }

@@ -1,0 +1,27 @@
+﻿@page
+@model DichotomieWeb.Pages.ForumModel
+@{
+    ViewData["Title"] = "Forum";
+}
+
+<h2>Forum</h2>
+
+<ul>
+    @foreach (var category in Model._categories)
+    {
+        <li>
+            @category.Name
+            <ul>
+                @foreach (var subCategory in category.SubCategories)
+                {
+                    <li><a>@subCategory.Name</a></li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
