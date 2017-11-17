@@ -12,13 +12,12 @@ using Dichotomie.Models;
 namespace DichotomieWeb.Pages
 {
     [Authorize]
-    public class ForumModel : PageModel
+    public class CategoriesModel : PageModel
     {
         private ApplicationDbContext _context;
-
         public List<Category> _categories;
 
-        public ForumModel(ApplicationDbContext context)
+        public CategoriesModel(ApplicationDbContext context)
         {
             _context = context;
         }

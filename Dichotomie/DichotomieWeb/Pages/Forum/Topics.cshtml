@@ -1,0 +1,16 @@
+﻿@page
+@model DichotomieWeb.Pages.Forum.TopicsModel
+@{
+    ViewData["Title"] = "Topics";
+}
+
+<h2>Topics</h2>
+
+@foreach(var topic in Model._topics)
+{
+    <a>@topic.Title</a>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
