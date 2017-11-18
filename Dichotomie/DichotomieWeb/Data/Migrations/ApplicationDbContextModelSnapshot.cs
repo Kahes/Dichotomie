@@ -17,7 +17,7 @@ namespace DichotomieWeb.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Dichotomie.Models.Category", b =>
@@ -35,7 +35,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Dichotomie.Models.Reply", b =>
@@ -61,7 +61,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("UserFK");
 
-                    b.ToTable("Replies");
+                    b.ToTable("Reply");
                 });
 
             modelBuilder.Entity("Dichotomie.Models.Topic", b =>
@@ -103,7 +103,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("UserFK");
 
-                    b.ToTable("Topics");
+                    b.ToTable("Topic");
                 });
 
             modelBuilder.Entity("DichotomieWeb.Data.ApplicationUser", b =>

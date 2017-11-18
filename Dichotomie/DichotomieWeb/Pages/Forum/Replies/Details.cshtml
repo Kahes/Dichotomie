@@ -1,0 +1,49 @@
+﻿@page
+@model DichotomieWeb.Pages.Forum.Replies.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Reply</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Reply.MainContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Reply.MainContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Reply.CreationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Reply.CreationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Reply.ModificationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Reply.ModificationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Reply.Topic)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Reply.Topic.MainContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Reply.User)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Reply.User.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Reply.ReplieId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

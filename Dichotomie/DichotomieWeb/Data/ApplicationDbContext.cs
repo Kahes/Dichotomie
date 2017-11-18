@@ -15,9 +15,9 @@ namespace DichotomieWeb.Data
         {
         }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Topic> Topics { get; set; }
-        public DbSet<Reply> Replies { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Topic> Topic { get; set; }
+        public DbSet<Reply> Reply { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

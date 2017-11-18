@@ -22,54 +22,54 @@ namespace DichotomieWeb.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Category",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ParentCategoryId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    ParentCategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Category", x => x.CategoryId);
                     table.ForeignKey(
-                        name: "FK_Categories_Categories_ParentCategoryId",
+                        name: "FK_Category_Category_ParentCategoryId",
                         column: x => x.ParentCategoryId,
-                        principalTable: "Categories",
+                        principalTable: "Category",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topics",
+                name: "Topic",
                 columns: table => new
                 {
-                    TopicId = table.Column<int>(type: "int", nullable: false)
+                    TopicId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CategoryFK = table.Column<int>(type: "int", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CurrencyUsed = table.Column<int>(type: "int", nullable: false),
-                    MainContent = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Pin = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<float>(type: "real", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    TradeSystem = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    UserFK = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CategoryFK = table.Column<int>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    CurrencyUsed = table.Column<int>(nullable: false),
+                    MainContent = table.Column<string>(maxLength: 250, nullable: false),
+                    ModificationDate = table.Column<DateTime>(nullable: false),
+                    Pin = table.Column<int>(nullable: false),
+                    Rating = table.Column<float>(nullable: false),
+                    State = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(maxLength: 50, nullable: false),
+                    TradeSystem = table.Column<string>(maxLength: 50, nullable: false),
+                    UserFK = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Topics", x => x.TopicId);
+                    table.PrimaryKey("PK_Topic", x => x.TopicId);
                     table.ForeignKey(
-                        name: "FK_Topics_Categories_CategoryFK",
+                        name: "FK_Topic_Category_CategoryFK",
                         column: x => x.CategoryFK,
-                        principalTable: "Categories",
+                        principalTable: "Category",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Topics_AspNetUsers_UserFK",
+                        name: "FK_Topic_AspNetUsers_UserFK",
                         column: x => x.UserFK,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -77,28 +77,28 @@ namespace DichotomieWeb.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Replies",
+                name: "Reply",
                 columns: table => new
                 {
-                    ReplieId = table.Column<int>(type: "int", nullable: false)
+                    ReplieId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MainContent = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TopicFK = table.Column<int>(type: "int", nullable: false),
-                    UserFK = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    MainContent = table.Column<string>(maxLength: 250, nullable: false),
+                    ModificationDate = table.Column<DateTime>(nullable: false),
+                    TopicFK = table.Column<int>(nullable: false),
+                    UserFK = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Replies", x => x.ReplieId);
+                    table.PrimaryKey("PK_Reply", x => x.ReplieId);
                     table.ForeignKey(
-                        name: "FK_Replies_Topics_TopicFK",
+                        name: "FK_Reply_Topic_TopicFK",
                         column: x => x.TopicFK,
-                        principalTable: "Topics",
+                        principalTable: "Topic",
                         principalColumn: "TopicId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Replies_AspNetUsers_UserFK",
+                        name: "FK_Reply_AspNetUsers_UserFK",
                         column: x => x.UserFK,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -120,28 +120,28 @@ namespace DichotomieWeb.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_ParentCategoryId",
-                table: "Categories",
+                name: "IX_Category_ParentCategoryId",
+                table: "Category",
                 column: "ParentCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Replies_TopicFK",
-                table: "Replies",
+                name: "IX_Reply_TopicFK",
+                table: "Reply",
                 column: "TopicFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Replies_UserFK",
-                table: "Replies",
+                name: "IX_Reply_UserFK",
+                table: "Reply",
                 column: "UserFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topics_CategoryFK",
-                table: "Topics",
+                name: "IX_Topic_CategoryFK",
+                table: "Topic",
                 column: "CategoryFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topics_UserFK",
-                table: "Topics",
+                name: "IX_Topic_UserFK",
+                table: "Topic",
                 column: "UserFK");
 
             migrationBuilder.AddForeignKey(
@@ -160,13 +160,13 @@ namespace DichotomieWeb.Data.Migrations
                 table: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Replies");
+                name: "Reply");
 
             migrationBuilder.DropTable(
-                name: "Topics");
+                name: "Topic");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Category");
 
             migrationBuilder.DropIndex(
                 name: "RoleNameIndex",

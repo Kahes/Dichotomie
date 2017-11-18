@@ -33,7 +33,7 @@ namespace DichotomieWeb.Data
 
             // CATEGORIES
 
-            //context.Categories.RemoveRange(context.Categories);
+            //context.Category.RemoveRange(context.Category);
             //context.SaveChanges();
 
             var categoryOne = "Category1";
@@ -57,21 +57,21 @@ namespace DichotomieWeb.Data
                     new Category { Name = categoryTwo + subCategoryThree , ParentCategory = categories[1]},
                     new Category { Name = categoryTwo + subCategoryFour , ParentCategory = categories[1]},
                 };
-            if (!context.Categories.Any())
+            if (!context.Category.Any())
             {
                 foreach (Category category in categories)
                 {
-                    context.Categories.Add(category);
+                    context.Category.Add(category);
                 }
                 foreach (Category subcategory in subCategories)
                 {
-                    context.Categories.Add(subcategory);
+                    context.Category.Add(subcategory);
                 }
             }
 
             // TOPIC
 
-            //context.Topics.RemoveRange(context.Topics);
+            //context.Topic.RemoveRange(context.Topic);
             //context.SaveChanges();
 
             var topics = new Topic[]
@@ -91,11 +91,11 @@ namespace DichotomieWeb.Data
                         ModificationDate = DateTime.Now,
                     },
                 };
-            if (!context.Topics.Any())
+            if (!context.Topic.Any())
             {
                 foreach (Topic topic in topics)
                 {
-                    context.Topics.Add(topic);
+                    context.Topic.Add(topic);
                 }
             }
             context.SaveChanges();

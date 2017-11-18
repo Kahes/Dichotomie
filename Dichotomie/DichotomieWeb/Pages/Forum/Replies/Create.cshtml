@@ -1,0 +1,52 @@
+﻿@page
+@model DichotomieWeb.Pages.Forum.Replies.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Reply</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Reply.MainContent" class="control-label"></label>
+                <input asp-for="Reply.MainContent" class="form-control" />
+                <span asp-validation-for="Reply.MainContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reply.CreationDate" class="control-label"></label>
+                <input asp-for="Reply.CreationDate" class="form-control" />
+                <span asp-validation-for="Reply.CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reply.ModificationDate" class="control-label"></label>
+                <input asp-for="Reply.ModificationDate" class="form-control" />
+                <span asp-validation-for="Reply.ModificationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reply.UserFK" class="control-label"></label>
+                <select asp-for="Reply.UserFK" class ="form-control" asp-items="ViewBag.UserFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reply.TopicFK" class="control-label"></label>
+                <select asp-for="Reply.TopicFK" class ="form-control" asp-items="ViewBag.TopicFK"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
