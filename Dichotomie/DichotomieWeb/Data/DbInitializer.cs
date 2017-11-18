@@ -1,5 +1,6 @@
 ﻿using Dichotomie.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,53 +14,91 @@ namespace DichotomieWeb.Data
         {
             context.Database.EnsureCreated();
 
+            // USER
+            var password = "Azerty0!";
+            var user1 = "user1@test.com";
+            var user2 = "user2@test.com";
+            var users = new ApplicationUser[]
+                {
+                    new ApplicationUser { UserName = user1, Email = user1 },
+                    new ApplicationUser { UserName = user2, Email = user2 }
+                };
             if (!context.Users.Any())
             {
-                var users = new ApplicationUser[]
-                {
-                    new ApplicationUser { UserName = "philippe.douelle@epitech.eu", Email = "philippe.douelle@epitech.eu" },
-                    new ApplicationUser { UserName = "charles.pamart@epitech.eu", Email = "charles.pamart@epitech.eu" }
-                };
                 foreach (ApplicationUser user in users)
                 {
-                    userManager.CreateAsync(user, "Azerty0!");
+                    userManager.CreateAsync(user, password);
                 }
-                context.SaveChanges();
             }
 
+            // CATEGORIES
+
+            //context.Categories.RemoveRange(context.Categories);
+            //context.SaveChanges();
+
+            var categoryOne = "Category1";
+            var categoryTwo = "Category2";
+            var subCategoryOne = "SubCategory1";
+            var subCategoryTwo = "SubCategory2";
+            var subCategoryThree = "SubCategory3";
+            var subCategoryFour = "SubCategory4";
+            var categories = new Category[]
+                {
+                    new Category { Name = categoryOne },
+                    new Category { Name = categoryTwo }
+                };
+            var subCategories = new Category[]
+                {
+                    new Category { Name = categoryOne + subCategoryOne , ParentCategory= categories[0]},
+                    new Category { Name = categoryOne + subCategoryTwo , ParentCategory = categories[0]},
+                    new Category { Name = categoryOne + subCategoryThree , ParentCategory = categories[0]},
+                    new Category { Name = categoryTwo + subCategoryOne , ParentCategory = categories[1]},
+                    new Category { Name = categoryTwo + subCategoryTwo , ParentCategory = categories[1]},
+                    new Category { Name = categoryTwo + subCategoryThree , ParentCategory = categories[1]},
+                    new Category { Name = categoryTwo + subCategoryFour , ParentCategory = categories[1]},
+                };
             if (!context.Categories.Any())
             {
-                var categoryWow = "World of Warcraft";
-                var categoryGW = "Guild Wars";
-                var categories = new Category[]
-                {
-                    new Category { Name = categoryWow },
-                    new Category { Name = categoryGW }
-                };
                 foreach (Category category in categories)
                 {
                     context.Categories.Add(category);
                 }
-                context.SaveChanges();
-
-                var subCategoryPVP = "PVP";
-                var subCategoryPVE = "PVE";
-                var subCategories = new Category[]
-                {
-                    new Category { Name = subCategoryPVP , ParentCategoryId = context.Categories.Where(q => q.Name == categoryWow).FirstOrDefault().CategoryId},
-                    new Category { Name = subCategoryPVE , ParentCategoryId = context.Categories.Where(q => q.Name == categoryWow).FirstOrDefault().CategoryId},
-                    new Category { Name = "Voleur" , ParentCategoryId = context.Categories.Where(q => q.Name == categoryWow).FirstOrDefault().CategoryId},
-                    new Category { Name = subCategoryPVP , ParentCategoryId = context.Categories.Where(q => q.Name == categoryGW).FirstOrDefault().CategoryId},
-                    new Category { Name = subCategoryPVE , ParentCategoryId = context.Categories.Where(q => q.Name == categoryGW).FirstOrDefault().CategoryId},
-                    new Category { Name = "Mesmer" , ParentCategoryId = context.Categories.Where(q => q.Name == categoryGW).FirstOrDefault().CategoryId},
-                    new Category { Name = "Necromancer" , ParentCategoryId = context.Categories.Where(q => q.Name == categoryGW).FirstOrDefault().CategoryId},
-                };
                 foreach (Category subcategory in subCategories)
                 {
                     context.Categories.Add(subcategory);
                 }
-                context.SaveChanges();
             }
+
+            // TOPIC
+
+            //context.Topics.RemoveRange(context.Topics);
+            //context.SaveChanges();
+
+            var topics = new Topic[]
+                {
+                    new Topic
+                    {
+                        Category = subCategories[0],
+                        User = users[0],
+                        Pin = 0,
+                        Title = categoryOne + subCategoryOne + "Title1",
+                        CurrencyUsed = 0,
+                        MainContent = categoryOne + subCategoryOne + "MainContent1",
+                        Rating = 0,
+                        State = 0,
+                        TradeSystem = "Po",
+                        CreationDate = DateTime.Now,
+                        ModificationDate = DateTime.Now,
+                    },
+                };
+            if (!context.Topics.Any())
+            {
+                foreach (Topic topic in topics)
+                {
+                    context.Topics.Add(topic);
+                }
+            }
+            context.SaveChanges();
         }
     }
 }

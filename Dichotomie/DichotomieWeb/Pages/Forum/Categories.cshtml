@@ -1,5 +1,5 @@
 ﻿@page
-@model DichotomieWeb.Pages.ForumModel
+@model DichotomieWeb.Pages.CategoriesModel
 @{
     ViewData["Title"] = "Forum";
 }
@@ -14,13 +14,12 @@
             <ul>
                 @foreach (var subCategory in category.SubCategories)
                 {
-                    <li><a>@subCategory.Name</a></li>
+                    <li><a asp-page="/Forum/Topics" asp-route-categoryId="@subCategory.CategoryId">@subCategory.Name</a></li>
                 }
             </ul>
         </li>
     }
 </ul>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
