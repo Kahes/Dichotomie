@@ -1,104 +1,174 @@
 ﻿using Dichotomie.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DichotomieWeb.Data
 {
     public static class DbInitializer
     {
+        private static int minUsers = 25;
+        private static int maxUsers = 100;
+
+        private static int minCategories = 2;
+        private static int maxCategories = 4;
+
+        private static int minSubCategories = 2;
+        private static int maxSubCategories = 4;
+
+        private static int minTopics = 1;
+        private static int maxTopics = 10;
+
+        private static int minReplies = 1;
+        private static int maxReplies = 10;
+
         public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             context.Database.EnsureCreated();
 
             // USER
-            var password = "Azerty0!";
-            var user1 = "user1@test.com";
-            var user2 = "user2@test.com";
-            var users = new ApplicationUser[]
-                {
-                    new ApplicationUser { UserName = user1, Email = user1 },
-                    new ApplicationUser { UserName = user2, Email = user2 }
-                };
+            //context.Users.RemoveRange(context.Users);
+            //context.SaveChanges();
             if (!context.Users.Any())
             {
+                var users = new List<ApplicationUser>();
+                int randomNumberUser = new Random().Next(minUsers, maxUsers);
+                for (var i = 0; i < randomNumberUser; i++)
+                {
+                    var email = $"user{i}@test.com";
+                    users.Add(new ApplicationUser { UserName = email, Email = email });
+                }
+                var password = "Azerty0!";
                 foreach (ApplicationUser user in users)
                 {
                     userManager.CreateAsync(user, password);
                 }
+                context.SaveChanges();
             }
 
             // CATEGORIES
-
-            //context.Category.RemoveRange(context.Category);
+            //context.Categories.RemoveRange(context.Categories);
             //context.SaveChanges();
-
-            var categoryOne = "Category1";
-            var categoryTwo = "Category2";
-            var subCategoryOne = "SubCategory1";
-            var subCategoryTwo = "SubCategory2";
-            var subCategoryThree = "SubCategory3";
-            var subCategoryFour = "SubCategory4";
-            var categories = new Category[]
-                {
-                    new Category { Name = categoryOne },
-                    new Category { Name = categoryTwo }
-                };
-            var subCategories = new Category[]
-                {
-                    new Category { Name = categoryOne + subCategoryOne , ParentCategory= categories[0]},
-                    new Category { Name = categoryOne + subCategoryTwo , ParentCategory = categories[0]},
-                    new Category { Name = categoryOne + subCategoryThree , ParentCategory = categories[0]},
-                    new Category { Name = categoryTwo + subCategoryOne , ParentCategory = categories[1]},
-                    new Category { Name = categoryTwo + subCategoryTwo , ParentCategory = categories[1]},
-                    new Category { Name = categoryTwo + subCategoryThree , ParentCategory = categories[1]},
-                    new Category { Name = categoryTwo + subCategoryFour , ParentCategory = categories[1]},
-                };
-            if (!context.Category.Any())
+            if (!context.Categories.Any())
             {
-                foreach (Category category in categories)
+                var categories = new List<Category>();
+                var subCategories = new List<Category>();
+                int randomNumberCategory = new Random().Next(minCategories, maxCategories);
+                for (var i = 0; i < randomNumberCategory; i++)
                 {
-                    context.Category.Add(category);
+                    var category = new Category { Name = $"Category{i}" };
+                    categories.Add(category);
+                    int randomNumberSubCategory = new Random().Next(minSubCategories, maxSubCategories);
+                    for (var j = 0; j < randomNumberSubCategory; j++)
+                    {
+                        var subCategory = new Category { Name = $"{category.Name}SubCategory{j}", ParentCategory = category };
+                        subCategories.Add(subCategory);
+                    }
                 }
-                foreach (Category subcategory in subCategories)
+                foreach (var category in categories)
                 {
-                    context.Category.Add(subcategory);
+                    context.Categories.Add(category);
                 }
+                foreach (var subcategory in subCategories)
+                {
+                    context.Categories.Add(subcategory);
+                }
+                context.SaveChanges();
             }
 
             // TOPIC
-
-            //context.Topic.RemoveRange(context.Topic);
+            //context.Topics.RemoveRange(context.Topics);
             //context.SaveChanges();
-
-            var topics = new Topic[]
-                {
-                    new Topic
-                    {
-                        Category = subCategories[0],
-                        User = users[0],
-                        Pin = 0,
-                        Title = categoryOne + subCategoryOne + "Title1",
-                        CurrencyUsed = 0,
-                        MainContent = categoryOne + subCategoryOne + "MainContent1",
-                        Rating = 0,
-                        State = 0,
-                        TradeSystem = "Po",
-                        CreationDate = DateTime.Now,
-                        ModificationDate = DateTime.Now,
-                    },
-                };
-            if (!context.Topic.Any())
+            if (!context.Topics.Any())
             {
-                foreach (Topic topic in topics)
+                var topics = new List<Topic>();
+                var categories = context.Categories
+                    .Include(c => c.SubCategories)
+                        .ThenInclude(t => t.Topics)
+                            .ThenInclude(r => r.Replies)
+                    .Where(c => c.ParentCategoryId == null)
+                    .ToList();
+                foreach (var category in categories)
                 {
-                    context.Topic.Add(topic);
+                    foreach (var subCategory in category.SubCategories)
+                    {
+                        int randomNumberTopic = new Random().Next(minTopics, maxTopics);
+                        for (var i = 0; i < randomNumberTopic; i++)
+                        {
+                            var usersArray = context.Users.ToArray();
+                            int randomNumberUser = new Random().Next(0, usersArray.Count() - 1);
+                            var randomUser = usersArray[randomNumberUser];
+                           
+                            var topic = new Topic
+                            {
+                                Category = subCategory,
+                                User = randomUser,
+                                Pin = 0,
+                                Title = $"{category.Name}{subCategory.Name}Title{i}",
+                                CurrencyUsed = 0,
+                                Rating = 0,
+                                State = 0,
+                                TradeSystem = "PO",
+                                CreationDate = DateTime.Now,
+                                ModificationDate = DateTime.Now
+                            };
+                            var reply = new Reply
+                            {
+                                MainContent = $"{category.Name}{subCategory.Name}MainContent{i}",
+                                CreationDate = DateTime.Now,
+                                ModificationDate = DateTime.Now,
+                                Topic = topic,
+                                User = randomUser,
+                            };
+                            topic.Replies = new List<Reply>();
+                            topic.Replies.Add(reply);
+                            topics.Add(topic);
+                        }
+                    }
                 }
+                foreach (var topic in topics)
+                {
+                    context.Topics.Add(topic);
+                }
+                context.SaveChanges();
             }
-            context.SaveChanges();
+
+            // REPLIES
+            //context.Replies.RemoveRange(context.Topic);
+            //context.SaveChanges();
+            if (!context.Replies.Any())
+            {
+                var replies = new List<Reply>();
+                foreach (var topic in context.Topics)
+                {
+                    int randomNumberReply = new Random().Next(minReplies, maxReplies);
+                    for (var i = 0; i < randomNumberReply; i++)
+                    {
+                        var usersArray = context.Users.ToArray();
+                        int randomNumber = new Random().Next(0, usersArray.Count() - 1);
+                        var randomUser = usersArray[randomNumber];
+                        var reply = new Reply
+                        {
+                            CreationDate = DateTime.Now,
+                            MainContent = $"{topic.Category.ParentCategory.Name}{topic.Category.Name}{topic.Title}MainContent{i}",
+                            ModificationDate = DateTime.Now,
+                            Topic = topic,
+                            User = randomUser,
+                        };
+                        replies.Add(reply);
+                    }
+                }
+                foreach (var reply in replies)
+                {
+                    context.Replies.Add(reply);
+                }
+                context.SaveChanges();
+            }
         }
     }
 }

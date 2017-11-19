@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dichotomie.Models;
 using DichotomieWeb.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
-namespace DichotomieWeb.Pages.Forum.Replies
+namespace DichotomieWeb.Pages.Forum.Topics
 {
     [Authorize]
     public class CreateModel : PageModel
@@ -22,14 +23,17 @@ namespace DichotomieWeb.Pages.Forum.Replies
             _userManager = userManager;
         }
 
+        public Category Category { get; set; }
+
+        [BindProperty]
         public Topic Topic { get; set; }
 
         [BindProperty]
         public Reply Reply { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int topicId)
+        public async Task<IActionResult> OnGetAsync(int categoryId)
         {
-            Topic = await _context.Topics.SingleOrDefaultAsync(t => t.TopicId == topicId);
+            Category = await _context.Categories.SingleOrDefaultAsync(c => c.CategoryId == categoryId);
             return Page();
         }
 
@@ -39,15 +43,25 @@ namespace DichotomieWeb.Pages.Forum.Replies
             {
                 return Page();
             }
-
-            Reply.User = await _userManager.GetUserAsync(User);
+ 
+            Topic.Pin = 0;
+            Topic.Rating = 0;
+            Topic.User = await _userManager.GetUserAsync(User);
+            Topic.CreationDate = DateTime.Now;
+            Topic.ModificationDate = DateTime.Now;
+            
+            Reply.User = Topic.User;
+            Reply.Topic = Topic;
             Reply.CreationDate = DateTime.Now;
             Reply.ModificationDate = DateTime.Now;
 
-            _context.Replies.Add(Reply);
+            Topic.Replies = new List<Reply>();
+            Topic.Replies.Add(Reply);
+
+            _context.Topics.Add(Topic);
             await _context.SaveChangesAsync();
-            RedirectToPage();
-            return RedirectToPage("./Index", new { topicId = Reply.TopicFK} );
+
+            return RedirectToPage("./Index", new { categoryId = Topic.CategoryFK });
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Dichotomie.Models
         public string MainContent { get; set; }
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
         public DateTime CreationDate { get; set; }
         [Required]
         [DataType(DataType.Date)]

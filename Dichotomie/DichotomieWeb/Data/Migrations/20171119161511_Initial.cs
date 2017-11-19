@@ -22,7 +22,7 @@ namespace DichotomieWeb.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(nullable: false)
@@ -32,17 +32,17 @@ namespace DichotomieWeb.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.CategoryId);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                     table.ForeignKey(
-                        name: "FK_Category_Category_ParentCategoryId",
+                        name: "FK_Categories_Categories_ParentCategoryId",
                         column: x => x.ParentCategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topic",
+                name: "Topics",
                 columns: table => new
                 {
                     TopicId = table.Column<int>(nullable: false)
@@ -50,7 +50,6 @@ namespace DichotomieWeb.Data.Migrations
                     CategoryFK = table.Column<int>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     CurrencyUsed = table.Column<int>(nullable: false),
-                    MainContent = table.Column<string>(maxLength: 250, nullable: false),
                     ModificationDate = table.Column<DateTime>(nullable: false),
                     Pin = table.Column<int>(nullable: false),
                     Rating = table.Column<float>(nullable: false),
@@ -61,15 +60,15 @@ namespace DichotomieWeb.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Topic", x => x.TopicId);
+                    table.PrimaryKey("PK_Topics", x => x.TopicId);
                     table.ForeignKey(
-                        name: "FK_Topic_Category_CategoryFK",
+                        name: "FK_Topics_Categories_CategoryFK",
                         column: x => x.CategoryFK,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Topic_AspNetUsers_UserFK",
+                        name: "FK_Topics_AspNetUsers_UserFK",
                         column: x => x.UserFK,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -77,7 +76,7 @@ namespace DichotomieWeb.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reply",
+                name: "Replies",
                 columns: table => new
                 {
                     ReplieId = table.Column<int>(nullable: false)
@@ -90,15 +89,15 @@ namespace DichotomieWeb.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reply", x => x.ReplieId);
+                    table.PrimaryKey("PK_Replies", x => x.ReplieId);
                     table.ForeignKey(
-                        name: "FK_Reply_Topic_TopicFK",
+                        name: "FK_Replies_Topics_TopicFK",
                         column: x => x.TopicFK,
-                        principalTable: "Topic",
+                        principalTable: "Topics",
                         principalColumn: "TopicId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reply_AspNetUsers_UserFK",
+                        name: "FK_Replies_AspNetUsers_UserFK",
                         column: x => x.UserFK,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -120,28 +119,28 @@ namespace DichotomieWeb.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_ParentCategoryId",
-                table: "Category",
+                name: "IX_Categories_ParentCategoryId",
+                table: "Categories",
                 column: "ParentCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reply_TopicFK",
-                table: "Reply",
+                name: "IX_Replies_TopicFK",
+                table: "Replies",
                 column: "TopicFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reply_UserFK",
-                table: "Reply",
+                name: "IX_Replies_UserFK",
+                table: "Replies",
                 column: "UserFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topic_CategoryFK",
-                table: "Topic",
+                name: "IX_Topics_CategoryFK",
+                table: "Topics",
                 column: "CategoryFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topic_UserFK",
-                table: "Topic",
+                name: "IX_Topics_UserFK",
+                table: "Topics",
                 column: "UserFK");
 
             migrationBuilder.AddForeignKey(
@@ -160,13 +159,13 @@ namespace DichotomieWeb.Data.Migrations
                 table: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Reply");
+                name: "Replies");
 
             migrationBuilder.DropTable(
-                name: "Topic");
+                name: "Topics");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropIndex(
                 name: "RoleNameIndex",

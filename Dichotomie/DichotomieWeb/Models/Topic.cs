@@ -12,9 +12,6 @@ namespace Dichotomie.Models
         public int TopicId { get; set; }
 
         [Required]
-        [MaxLength(250)]
-        public string MainContent { get; set; }
-        [Required]
         [MaxLength(50)]
         public string Title { get; set; }
         [Required]
@@ -30,6 +27,7 @@ namespace Dichotomie.Models
         public float Rating { get; set; }
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
         public DateTime CreationDate { get; set; }
         [Required]
         [DataType(DataType.Date)]

@@ -19,13 +19,18 @@ namespace DichotomieWeb.Pages.Forum.Replies
             _context = context;
         }
 
-        public IList<Reply> Reply { get;set; }
+        public int TopicId { get; set; }
+        public IList<Reply> Replies { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int topicId)
         {
-            Reply = await _context.Reply
+            TopicId = topicId;
+            Replies = await _context.Replies
                 .Include(r => r.Topic)
-                .Include(r => r.User).ToListAsync();
+                .Include(r => r.User)
+                .Where(r => r.Topic.TopicId == topicId)
+                .OrderByDescending(r => r.CreationDate)
+                .ToListAsync();
         }
     }
 }

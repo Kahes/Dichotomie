@@ -11,7 +11,7 @@ using System;
 namespace DichotomieWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171118191016_Initial")]
+    [Migration("20171119161511_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Dichotomie.Models.Reply", b =>
@@ -62,7 +62,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("UserFK");
 
-                    b.ToTable("Reply");
+                    b.ToTable("Replies");
                 });
 
             modelBuilder.Entity("Dichotomie.Models.Topic", b =>
@@ -75,10 +75,6 @@ namespace DichotomieWeb.Data.Migrations
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<int>("CurrencyUsed");
-
-                    b.Property<string>("MainContent")
-                        .IsRequired()
-                        .HasMaxLength(250);
 
                     b.Property<DateTime>("ModificationDate");
 
@@ -104,7 +100,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("UserFK");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("DichotomieWeb.Data.ApplicationUser", b =>

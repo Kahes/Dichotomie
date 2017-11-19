@@ -35,7 +35,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Dichotomie.Models.Reply", b =>
@@ -61,7 +61,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("UserFK");
 
-                    b.ToTable("Reply");
+                    b.ToTable("Replies");
                 });
 
             modelBuilder.Entity("Dichotomie.Models.Topic", b =>
@@ -74,10 +74,6 @@ namespace DichotomieWeb.Data.Migrations
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<int>("CurrencyUsed");
-
-                    b.Property<string>("MainContent")
-                        .IsRequired()
-                        .HasMaxLength(250);
 
                     b.Property<DateTime>("ModificationDate");
 
@@ -103,7 +99,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.HasIndex("UserFK");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("DichotomieWeb.Data.ApplicationUser", b =>
