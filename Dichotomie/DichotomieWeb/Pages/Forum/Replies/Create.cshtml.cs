@@ -46,7 +46,7 @@ namespace DichotomieWeb.Pages.Forum.Replies
 
             _context.Replies.Add(Reply);
             await _context.SaveChangesAsync();
-            RedirectToPage();
+
             return RedirectToPage("./Index", new { topicId = Reply.TopicFK} );
         }
     }

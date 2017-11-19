@@ -12,9 +12,9 @@ namespace DichotomieWeb.Pages.Forum.Replies
 {
     public class IndexModel : PageModel
     {
-        private readonly DichotomieWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(DichotomieWeb.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -29,7 +29,7 @@ namespace DichotomieWeb.Pages.Forum.Replies
                 .Include(r => r.Topic)
                 .Include(r => r.User)
                 .Where(r => r.Topic.TopicId == topicId)
-                .OrderByDescending(r => r.CreationDate)
+                .OrderBy(r => r.CreationDate)
                 .ToListAsync();
         }
     }

@@ -32,8 +32,6 @@ namespace DichotomieWeb.Data
             context.Database.EnsureCreated();
 
             // USER
-            //context.Users.RemoveRange(context.Users);
-            //context.SaveChanges();
             if (!context.Users.Any())
             {
                 var users = new List<ApplicationUser>();
@@ -46,14 +44,12 @@ namespace DichotomieWeb.Data
                 var password = "Azerty0!";
                 foreach (ApplicationUser user in users)
                 {
-                    userManager.CreateAsync(user, password);
+                    userManager.CreateAsync(user, password).Wait();
                 }
                 context.SaveChanges();
             }
 
             // CATEGORIES
-            //context.Categories.RemoveRange(context.Categories);
-            //context.SaveChanges();
             if (!context.Categories.Any())
             {
                 var categories = new List<Category>();
@@ -81,9 +77,7 @@ namespace DichotomieWeb.Data
                 context.SaveChanges();
             }
 
-            // TOPIC
-            //context.Topics.RemoveRange(context.Topics);
-            //context.SaveChanges();
+            // TOPICS
             if (!context.Topics.Any())
             {
                 var topics = new List<Topic>();
@@ -136,13 +130,8 @@ namespace DichotomieWeb.Data
                     context.Topics.Add(topic);
                 }
                 context.SaveChanges();
-            }
 
-            // REPLIES
-            //context.Replies.RemoveRange(context.Topic);
-            //context.SaveChanges();
-            if (!context.Replies.Any())
-            {
+                // REPLIES
                 var replies = new List<Reply>();
                 foreach (var topic in context.Topics)
                 {
