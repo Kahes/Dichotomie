@@ -1,0 +1,45 @@
+﻿@page
+@model DichotomieWeb.Pages.Forum.Topics.IndexModel
+
+@{
+    ViewData["Title"] = "Topics";
+}
+
+<h2>Topics</h2>
+
+<p>
+    <a asp-page="Create" asp-route-categoryId="@Model.CategoryId">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Replies
+            </th>
+            <th>
+                Last Reply By
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var topic in Model.Topics)
+        {
+            
+            <tr>
+                <td>
+                    <a asp-page="/Forum/Replies/Index" asp-route-topicId="@topic.TopicId">@Html.DisplayFor(modelItem => topic.Title)</a>
+                </td>
+                <td>
+                    Replies : @Html.DisplayFor(modelItem => topic.Replies.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().User.UserName)<br />
+                    @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().CreationDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

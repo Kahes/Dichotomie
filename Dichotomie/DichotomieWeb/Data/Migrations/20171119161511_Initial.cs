@@ -25,10 +25,10 @@ namespace DichotomieWeb.Data.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ParentCategoryId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    ParentCategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,19 +45,18 @@ namespace DichotomieWeb.Data.Migrations
                 name: "Topics",
                 columns: table => new
                 {
-                    TopicId = table.Column<int>(type: "int", nullable: false)
+                    TopicId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CategoryFK = table.Column<int>(type: "int", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CurrencyUsed = table.Column<int>(type: "int", nullable: false),
-                    MainContent = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Pin = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<float>(type: "real", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    TradeSystem = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    UserFK = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CategoryFK = table.Column<int>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    CurrencyUsed = table.Column<int>(nullable: false),
+                    ModificationDate = table.Column<DateTime>(nullable: false),
+                    Pin = table.Column<int>(nullable: false),
+                    Rating = table.Column<float>(nullable: false),
+                    State = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(maxLength: 50, nullable: false),
+                    TradeSystem = table.Column<string>(maxLength: 50, nullable: false),
+                    UserFK = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,13 +79,13 @@ namespace DichotomieWeb.Data.Migrations
                 name: "Replies",
                 columns: table => new
                 {
-                    ReplieId = table.Column<int>(type: "int", nullable: false)
+                    ReplieId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MainContent = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TopicFK = table.Column<int>(type: "int", nullable: false),
-                    UserFK = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    MainContent = table.Column<string>(maxLength: 250, nullable: false),
+                    ModificationDate = table.Column<DateTime>(nullable: false),
+                    TopicFK = table.Column<int>(nullable: false),
+                    UserFK = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
