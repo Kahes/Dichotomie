@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DichotomieWeb.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
 
 namespace DichotomieWeb.Pages.Manage.Users
 {
@@ -23,7 +24,18 @@ namespace DichotomieWeb.Pages.Manage.Users
             _userManager = userManager;
         }
 
+        [BindProperty]
         public ApplicationUser ApplicationUser { get; set; }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        public class InputModel
+        {
+            [Required]
+            [DataType(DataType.Date)]
+            public DateTime LockoutDate { get; set; }
+        }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -33,12 +45,37 @@ namespace DichotomieWeb.Pages.Manage.Users
             }
 
             ApplicationUser = await _userManager.FindByIdAsync(id);
-
             if (ApplicationUser == null)
             {
                 return NotFound();
             }
+
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var user = await _userManager.FindByIdAsync(ApplicationUser.Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.LockoutEnd != null)
+            {
+                await _userManager.SetLockoutEndDateAsync(user, null);
+            }
+            else
+            {
+                await _userManager.SetLockoutEndDateAsync(user, Input.LockoutDate);
+            }
+
+            return RedirectToPage("./Details", new { id = ApplicationUser.Id });
         }
     }
 }

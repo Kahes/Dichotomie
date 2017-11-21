@@ -66,6 +66,31 @@
             @Html.DisplayFor(model => model.ApplicationUser.AccessFailedCount)
         </dd>
     </dl>
+    <div class="row">
+        <div class="col-md-2">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="ApplicationUser.Id" type="hidden" value="@Model.ApplicationUser.Id" />
+                @if (Model.ApplicationUser.LockoutEnd == null)
+                {
+                    <div class="form-group">
+                        <label asp-for="Input.LockoutDate" class="control-label"></label>
+                        <input asp-for="Input.LockoutDate" class="form-control" />
+                        <span asp-validation-for="Input.LockoutDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Banish @Model.ApplicationUser.UserName" class="btn btn-default btn-danger" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input type="submit" value="Allow @Model.ApplicationUser.UserName" class="btn btn-default btn-success" />
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
 </div>
 <div>
     <a asp-page="./Index">Back to List</a>
