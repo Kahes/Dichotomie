@@ -16,6 +16,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ApplicationUser[0].Email)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                 </td>
             </tr>
         }
