@@ -48,12 +48,12 @@ namespace DichotomieWeb.Data.Migrations
                     TopicId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CategoryFK = table.Column<int>(nullable: false),
+                    Close = table.Column<bool>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     CurrencyUsed = table.Column<int>(nullable: false),
                     ModificationDate = table.Column<DateTime>(nullable: false),
                     Pin = table.Column<int>(nullable: false),
                     Rating = table.Column<float>(nullable: false),
-                    State = table.Column<int>(nullable: false),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
                     TradeSystem = table.Column<string>(maxLength: 50, nullable: false),
                     UserFK = table.Column<string>(nullable: true)

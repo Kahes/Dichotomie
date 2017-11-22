@@ -71,6 +71,8 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.Property<int>("CategoryFK");
 
+                    b.Property<bool>("Close");
+
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<int>("CurrencyUsed");
@@ -80,8 +82,6 @@ namespace DichotomieWeb.Data.Migrations
                     b.Property<int>("Pin");
 
                     b.Property<float>("Rating");
-
-                    b.Property<int>("State");
 
                     b.Property<string>("Title")
                         .IsRequired()

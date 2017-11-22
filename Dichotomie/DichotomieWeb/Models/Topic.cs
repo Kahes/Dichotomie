@@ -18,7 +18,7 @@ namespace Dichotomie.Models
         [MaxLength(50)]
         public string TradeSystem { get; set; }
         [Required]
-        public int State { get; set; }
+        public bool Close { get; set; }
         [Required]
         public int Pin { get; set; }
         [Required]

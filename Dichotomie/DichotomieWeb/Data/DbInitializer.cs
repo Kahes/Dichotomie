@@ -151,7 +151,7 @@ namespace DichotomieWeb.Data
                                 Title = $"{category.Name}{subCategory.Name}Title{i}",
                                 CurrencyUsed = 0,
                                 Rating = 0,
-                                State = 0,
+                                Close = false,
                                 TradeSystem = "PO",
                                 CreationDate = DateTime.Now,
                                 ModificationDate = DateTime.Now

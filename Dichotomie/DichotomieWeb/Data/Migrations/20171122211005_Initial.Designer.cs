@@ -11,7 +11,7 @@ using System;
 namespace DichotomieWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171119161511_Initial")]
+    [Migration("20171122211005_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,6 +72,8 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.Property<int>("CategoryFK");
 
+                    b.Property<bool>("Close");
+
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<int>("CurrencyUsed");
@@ -81,8 +83,6 @@ namespace DichotomieWeb.Data.Migrations
                     b.Property<int>("Pin");
 
                     b.Property<float>("Rating");
-
-                    b.Property<int>("State");
 
                     b.Property<string>("Title")
                         .IsRequired()
