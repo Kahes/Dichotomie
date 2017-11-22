@@ -17,6 +17,11 @@
             <tr>
                 <th>
                     @Html.DisplayFor(modelItem => reply.CreationDate)
+                    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                        <a asp-page="./Edit" asp-route-id="@reply.ReplieId">Edit</a>
+                        <a asp-page="./Delete" asp-route-id="@reply.ReplieId">Delete</a>
+                    }
                 </th>
             </tr>
             <tr>
