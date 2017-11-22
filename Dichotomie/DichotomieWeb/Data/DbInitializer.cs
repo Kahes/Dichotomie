@@ -12,6 +12,12 @@ namespace DichotomieWeb.Data
 {
     public static class DbInitializer
     {
+        private static int minAdmins = 1;
+        private static int maxAdmins = 2;
+
+        private static int minModerators = 3;
+        private static int maxModerators = 4;
+
         private static int minUsers = 25;
         private static int maxUsers = 100;
 
@@ -27,13 +33,35 @@ namespace DichotomieWeb.Data
         private static int minReplies = 1;
         private static int maxReplies = 10;
 
-        public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             context.Database.EnsureCreated();
 
             // USER
             if (!context.Users.Any())
             {
+                string[] roleNames = { "Admin", "Moderator", "Member" };
+                foreach (var roleName in roleNames)
+                {
+                    roleManager.CreateAsync(new IdentityRole(roleName)).Wait();
+                }
+
+                var admins = new List<ApplicationUser>();
+                int randomNumberAdmin = new Random().Next(minAdmins, maxAdmins);
+                for (var i = 0; i < randomNumberAdmin; i++)
+                {
+                    var email = $"admin{i}@test.com";
+                    admins.Add(new ApplicationUser { UserName = email, Email = email });
+                }
+
+                var moderators = new List<ApplicationUser>();
+                int randomNumberModerator = new Random().Next(minModerators, maxModerators);
+                for (var i = 0; i < randomNumberModerator; i++)
+                {
+                    var email = $"moderator{i}@test.com";
+                    moderators.Add(new ApplicationUser { UserName = email, Email = email });
+                }
+
                 var users = new List<ApplicationUser>();
                 int randomNumberUser = new Random().Next(minUsers, maxUsers);
                 for (var i = 0; i < randomNumberUser; i++)
@@ -41,11 +69,28 @@ namespace DichotomieWeb.Data
                     var email = $"user{i}@test.com";
                     users.Add(new ApplicationUser { UserName = email, Email = email });
                 }
+
+                var passwordAdmin = "Admin0!";
+                foreach (ApplicationUser admin in admins)
+                {
+                    userManager.CreateAsync(admin, passwordAdmin).Wait();
+                    userManager.AddToRoleAsync(admin, "Admin").Wait();
+                }
+
+                var passwordModerator = "Moderator0!";
+                foreach (ApplicationUser moderator in moderators)
+                {
+                    userManager.CreateAsync(moderator, passwordModerator).Wait();
+                    userManager.AddToRoleAsync(moderator, "Moderator").Wait();
+                }
+
                 var password = "Azerty0!";
                 foreach (ApplicationUser user in users)
                 {
                     userManager.CreateAsync(user, password).Wait();
+                    userManager.AddToRoleAsync(user, "Member").Wait();
                 }
+
                 context.SaveChanges();
             }
 

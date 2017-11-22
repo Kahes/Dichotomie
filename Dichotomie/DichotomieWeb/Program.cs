@@ -25,8 +25,10 @@ namespace DichotomieWeb
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    DbInitializer.Initialize(context, userManager);
+                
+                    DbInitializer.Initialize(context, userManager, roleManager);
                 }
                 catch (Exception ex)
                 {
