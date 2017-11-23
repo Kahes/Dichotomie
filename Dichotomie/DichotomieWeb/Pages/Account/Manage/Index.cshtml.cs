@@ -44,9 +44,14 @@ namespace DichotomieWeb.Pages.Account.Manage
             [EmailAddress]
             public string Email { get; set; }
 
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public string Biography { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -62,7 +67,10 @@ namespace DichotomieWeb.Pages.Account.Manage
             Input = new InputModel
             {
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                Biography = user.Biography
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -100,6 +108,12 @@ namespace DichotomieWeb.Pages.Account.Manage
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
+
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.Biography = Input.Biography;
+
+            await _userManager.UpdateAsync(user);
 
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
