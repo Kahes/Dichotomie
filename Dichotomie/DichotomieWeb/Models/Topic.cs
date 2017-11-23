@@ -20,7 +20,7 @@ namespace Dichotomie.Models
         [Required]
         public bool Close { get; set; }
         [Required]
-        public int Pin { get; set; }
+        public bool Pin { get; set; }
         [Required]
         public int CurrencyUsed  { get; set; }
         [Required]

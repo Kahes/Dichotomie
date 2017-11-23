@@ -79,7 +79,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.Property<DateTime>("ModificationDate");
 
-                    b.Property<int>("Pin");
+                    b.Property<bool>("Pin");
 
                     b.Property<float>("Rating");
 

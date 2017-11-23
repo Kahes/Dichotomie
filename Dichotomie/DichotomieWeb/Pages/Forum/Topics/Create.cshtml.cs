@@ -44,7 +44,7 @@ namespace DichotomieWeb.Pages.Forum.Topics
                 return Page();
             }
  
-            Topic.Pin = 0;
+            Topic.Pin = false;
             Topic.Rating = 0;
             Topic.User = await _userManager.GetUserAsync(User);
             Topic.CreationDate = DateTime.Now;

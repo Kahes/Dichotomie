@@ -32,7 +32,8 @@ namespace DichotomieWeb.Pages.Forum.Topics
                 .Include(t => t.Replies)
                     .ThenInclude(r => r.User)
                 .Where(t => t.CategoryFK ==  categoryId)
-                .OrderByDescending(t => t.CreationDate)
+                .OrderByDescending(t => t.Pin)
+                    .ThenByDescending(t => t.CreationDate)
                 .ToListAsync();
 
             foreach (var topic in Topics)

@@ -11,7 +11,7 @@ using System;
 namespace DichotomieWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171122211005_Initial")]
+    [Migration("20171123175702_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,7 +80,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.Property<DateTime>("ModificationDate");
 
-                    b.Property<int>("Pin");
+                    b.Property<bool>("Pin");
 
                     b.Property<float>("Rating");
 

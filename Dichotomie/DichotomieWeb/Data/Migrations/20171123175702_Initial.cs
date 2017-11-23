@@ -52,7 +52,7 @@ namespace DichotomieWeb.Data.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     CurrencyUsed = table.Column<int>(nullable: false),
                     ModificationDate = table.Column<DateTime>(nullable: false),
-                    Pin = table.Column<int>(nullable: false),
+                    Pin = table.Column<bool>(nullable: false),
                     Rating = table.Column<float>(nullable: false),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
                     TradeSystem = table.Column<string>(maxLength: 50, nullable: false),
