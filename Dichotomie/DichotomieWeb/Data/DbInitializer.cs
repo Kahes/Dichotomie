@@ -147,19 +147,19 @@ namespace DichotomieWeb.Data
                             {
                                 Category = subCategory,
                                 User = randomUser,
-                                Pin = 0,
+                                Pin = i < 2,
                                 Title = $"{category.Name}{subCategory.Name}Title{i}",
                                 CurrencyUsed = 0,
                                 Rating = 0,
-                                State = 0,
+                                Close = false,
                                 TradeSystem = "PO",
-                                CreationDate = DateTime.Now,
+                                CreationDate = DateTime.Now.AddSeconds(i),
                                 ModificationDate = DateTime.Now
                             };
                             var reply = new Reply
                             {
                                 MainContent = $"{category.Name}{subCategory.Name}MainContent{i}",
-                                CreationDate = DateTime.Now,
+                                CreationDate = DateTime.Now.AddSeconds(i),
                                 ModificationDate = DateTime.Now,
                                 Topic = topic,
                                 User = randomUser,

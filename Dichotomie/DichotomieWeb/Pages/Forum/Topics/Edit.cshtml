@@ -1,0 +1,71 @@
+﻿@page
+@model DichotomieWeb.Pages.Forum.Topics.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Topic</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Topic.TopicId" />
+            <input type="hidden" asp-for="Topic.CreationDate" value="@Model.Topic.CreationDate"/>
+            <input type="hidden" asp-for="Topic.ModificationDate" value="@DateTime.Now" />
+            <div class="form-group">
+                <label asp-for="Topic.CategoryFK" class="control-label"></label>
+                <select asp-for="Topic.CategoryFK" class="form-control" asp-items="ViewBag.CategoryFK"></select>
+                <span asp-validation-for="Topic.CategoryFK" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.Title" class="control-label"></label>
+                <input asp-for="Topic.Title" class="form-control" />
+                <span asp-validation-for="Topic.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Topic.Pin" /> @Html.DisplayNameFor(model => model.Topic.Pin)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.TradeSystem" class="control-label"></label>
+                <input asp-for="Topic.TradeSystem" class="form-control" />
+                <span asp-validation-for="Topic.TradeSystem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.CurrencyUsed" class="control-label"></label>
+                <input asp-for="Topic.CurrencyUsed" class="form-control" />
+                <span asp-validation-for="Topic.CurrencyUsed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.Rating" class="control-label"></label>
+                <input asp-for="Topic.Rating" class="form-control" />
+                <span asp-validation-for="Topic.Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Topic.Close" /> @Html.DisplayNameFor(model => model.Topic.Close)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

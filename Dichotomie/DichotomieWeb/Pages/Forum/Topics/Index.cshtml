@@ -27,10 +27,37 @@
     <tbody>
         @foreach (var topic in Model.Topics)
         {
-            
+
             <tr>
                 <td>
-                    <a asp-page="/Forum/Replies/Index" asp-route-topicId="@topic.TopicId">@Html.DisplayFor(modelItem => topic.Title)</a>
+                    @if (topic.Pin)
+                    {
+                        @if (topic.Close)
+                        {
+                            <span><i class="glyphicon glyphicon-tag"></i><i class="glyphicon glyphicon-lock"></i> @Html.DisplayFor(modelItem => topic.Title)</span>
+                        }
+                        else
+                        {
+                            <i class="glyphicon glyphicon-tag"></i><a asp-page="/Forum/Replies/Index" asp-route-topicId="@topic.TopicId"> @Html.DisplayFor(modelItem => topic.Title)</a>
+
+                        }
+
+                    }
+                    else
+                    {
+                        @if (topic.Close)
+                        {
+                            <span><i class="glyphicon glyphicon-lock"></i> @Html.DisplayFor(modelItem => topic.Title)</span>
+                        }
+                        else
+                        {
+                            <a asp-page="/Forum/Replies/Index" asp-route-topicId="@topic.TopicId">@Html.DisplayFor(modelItem => topic.Title)</a>
+                        }
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                        <a asp-page="./Edit" asp-route-id="@topic.TopicId">Edit</a>
+                    }
                 </td>
                 <td>
                     Replies : @Html.DisplayFor(modelItem => topic.Replies.Count)
