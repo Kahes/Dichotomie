@@ -11,9 +11,10 @@ using System;
 namespace DichotomieWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171123215223_FirstName_LastName_Biography")]
+    partial class FirstName_LastName_Biography
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,17 +72,17 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.Property<int>("CategoryFK");
 
-                    b.Property<bool>("Close");
-
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<int>("CurrencyUsed");
 
                     b.Property<DateTime>("ModificationDate");
 
-                    b.Property<bool>("Pin");
+                    b.Property<int>("Pin");
 
                     b.Property<float>("Rating");
+
+                    b.Property<int>("State");
 
                     b.Property<string>("Title")
                         .IsRequired()
