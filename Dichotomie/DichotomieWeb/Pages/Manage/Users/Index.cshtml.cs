@@ -22,9 +22,14 @@ namespace DichotomieWeb.Pages.Manage.Users
 
         public IList<ApplicationUser> ApplicationUser { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchString)
         {
             ApplicationUser = await _context.Users.ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                ApplicationUser = ApplicationUser.Where(x => x.UserName.Contains(searchString)).ToList();
+            }
         }
     }
 }
