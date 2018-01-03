@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  dichotomieweb:
+    image: dichotomieweb
+    build:
+      context: .
+      dockerfile: DichotomieWeb/Dockerfile
