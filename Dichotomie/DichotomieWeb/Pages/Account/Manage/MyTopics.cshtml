@@ -1,0 +1,44 @@
+﻿@page
+@model MyTopicsModel
+@{
+    ViewData["Title"] = "My topics";
+}
+
+<h4>@ViewData["Title"]</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Replies
+            </th>
+            <th>
+                Last Reply By
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var topic in Model.Topics)
+        {
+
+            <tr>
+                <td>
+                    <a asp-page="/Forum/Replies/Index" asp-route-topicId="@topic.TopicId">@Html.DisplayFor(modelItem => topic.Title)</a>
+                </td>
+                <td>
+                    Replies : @Html.DisplayFor(modelItem => topic.Replies.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().User.UserName)
+                    @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().CreationDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }

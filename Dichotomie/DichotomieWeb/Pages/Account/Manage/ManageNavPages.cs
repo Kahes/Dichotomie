@@ -12,6 +12,8 @@ namespace DichotomieWeb.Pages.Account.Manage
 
         public static string ChangePassword => "ChangePassword";
 
+        public static string MyTopics => "MyTopics";
+
         public static string ExternalLogins => "ExternalLogins";
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
@@ -19,6 +21,8 @@ namespace DichotomieWeb.Pages.Account.Manage
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
+
+        public static string MyTopicsNavClass(ViewContext viewContext) => PageNavClass(viewContext, MyTopics);
 
         public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
 
