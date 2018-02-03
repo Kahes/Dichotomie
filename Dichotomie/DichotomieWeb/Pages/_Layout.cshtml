@@ -2,9 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Dichotomie</title>
-
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -34,6 +31,7 @@
                     <li><a asp-page="/Forum/Categories/Index">Forum</a></li>
                     <li><a asp-page="/About">About</a></li>
                     <li><a asp-page="/Contact">Contact</a></li>
+                    <li><a asp-page="/Forum/Search/Index">Search</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -41,6 +39,9 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - Dichotomie</title>
+
         <hr />
         <footer>
             <p>&copy; 2017 - Dichotomie</p>
@@ -70,4 +71,5 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>
