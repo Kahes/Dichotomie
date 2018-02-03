@@ -7,7 +7,9 @@
 <form>
     <p>
         Name: <input type="text" name="SearchString">
-        Category:   <select asp-items="Model.CategorySLI" name="SearchCategory"></select>
+        Category: <select asp-items="Model.CategorySLI" name="SearchCategory"></select>
+        From : <input type="date" name="SearchFirstDate" />
+        To : <input type="date" name="SearchSecondDate" />
         <input type="submit" value="Filter" />
     </p>
 </form>

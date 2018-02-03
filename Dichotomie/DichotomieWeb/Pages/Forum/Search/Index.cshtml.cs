@@ -24,7 +24,7 @@ namespace DichotomieWeb.Pages.Forum.Search
         public IList<Category> Categories { get; set; }
         public IList<SelectListItem> CategorySLI { get; set; }
 
-        public async Task OnGetAsync(string searchString, int searchCategory)
+        public async Task OnGetAsync(string searchString, int searchCategory, string searchFirstDate, string searchSecondDate)
         {
             Topics = await _context.Topics.ToListAsync();
             Categories = await _context.Categories.ToListAsync();
@@ -40,12 +40,32 @@ namespace DichotomieWeb.Pages.Forum.Search
                 CategorySLI.Add(new SelectListItem { Value = category.CategoryId.ToString(), Text = category.Name });
             }
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString) || searchCategory != 0 || searchFirstDate != null || searchSecondDate != null)
             {
-                if (searchCategory != 0)
-                    Topics = Topics.Where(x => x.Title.Contains(searchString) && x.CategoryFK == searchCategory).ToList();
-                else
+                if (!String.IsNullOrEmpty(searchString))
                     Topics = Topics.Where(x => x.Title.Contains(searchString)).ToList();
+                if (searchCategory != 0)
+                    Topics = Topics.Where(x => x.CategoryFK == searchCategory).ToList();
+                if (searchFirstDate != null && searchSecondDate == null)
+                {
+                    string[] Datetmp = searchFirstDate.Split('-'); 
+                    DateTime FirstDate = new DateTime(Int32.Parse(Datetmp[0]), Int32.Parse(Datetmp[1]), Int32.Parse(Datetmp[2]));
+                    Topics = Topics.Where(x => x.CreationDate >= FirstDate).ToList();
+                }
+                else if (searchFirstDate == null && searchSecondDate != null)
+                {
+                    string[] Datetmp = searchSecondDate.Split('-');
+                    DateTime SecondDate = new DateTime(Int32.Parse(Datetmp[0]), Int32.Parse(Datetmp[1]), Int32.Parse(Datetmp[2]));
+                    Topics = Topics.Where(x => x.CreationDate <= SecondDate).ToList();
+                }
+                else
+                {
+                    string[] Datetmp = searchFirstDate.Split('-');
+                    string[] Datetmp1 = searchSecondDate.Split('-');
+                    DateTime FirstDate = new DateTime(Int32.Parse(Datetmp[0]), Int32.Parse(Datetmp[1]), Int32.Parse(Datetmp[2]));
+                    DateTime SecondDate = new DateTime(Int32.Parse(Datetmp1[0]), Int32.Parse(Datetmp1[1]), Int32.Parse(Datetmp1[2]));
+                    Topics = Topics.Where(x => x.CreationDate >= FirstDate && x.CreationDate <= SecondDate).ToList();
+                }
             }
         }
     }
