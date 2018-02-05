@@ -166,7 +166,7 @@ namespace DichotomieWeb.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(200);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -182,16 +182,16 @@ namespace DichotomieWeb.Data.Migrations
                     b.Property<int>("ReputationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("FromUserFK");
-
                     b.Property<int>("MarkValue")
                         .HasMaxLength(1);
+
+                    b.Property<int>("TopicFK");
 
                     b.Property<string>("UserFK");
 
                     b.HasKey("ReputationId");
 
-                    b.HasIndex("FromUserFK");
+                    b.HasIndex("TopicFK");
 
                     b.HasIndex("UserFK");
 
@@ -339,9 +339,10 @@ namespace DichotomieWeb.Data.Migrations
 
             modelBuilder.Entity("DichotomieWeb.Models.Reputation", b =>
                 {
-                    b.HasOne("DichotomieWeb.Data.ApplicationUser", "FromUser")
+                    b.HasOne("Dichotomie.Models.Topic", "Topic")
                         .WithMany()
-                        .HasForeignKey("FromUserFK");
+                        .HasForeignKey("TopicFK")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DichotomieWeb.Data.ApplicationUser", "User")
                         .WithMany()

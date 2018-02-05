@@ -9,6 +9,20 @@
 
 <p>
     <a asp-page="Create" asp-route-topicId="@Model.TopicId">Create New</a>
+    @if (Model.Reputations.Count == 0)
+    {
+        <form>
+            <select asp-items="@Model.ReputationList" name="votevalue"></select>
+            <input name="TopicId" hidden="hidden" value="@Model.TopicId" />
+            <input value="Vote" type="submit" />
+        </form>
+    }
+    else
+    {
+        <div>
+            Note: @Model.averagenote
+        </div>
+    }
 </p>
 <table class="table">
     <tbody>
@@ -25,15 +39,6 @@
                 </th>
             </tr>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => reply.User.UserName)
-                    <form>
-                        <select asp-items="Model.ReputationList" name="votevalue"></select>
-                        <input value="@reply.ReplieId" name="replyid" hidden="hidden" />
-                        <input value="@Model.TopicId" name="topicId" hidden="hidden" />
-                        <input type="submit" value="Vote" />
-                    </form>
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => reply.MainContent)
                 </td>

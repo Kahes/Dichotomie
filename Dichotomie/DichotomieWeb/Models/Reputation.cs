@@ -1,4 +1,5 @@
-﻿using DichotomieWeb.Data;
+﻿using Dichotomie.Models;
+using DichotomieWeb.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,8 +24,8 @@ namespace DichotomieWeb.Models
         public string UserFK { get; set; }
 
         // ForeignKey
-        [ForeignKey(nameof(FromUserFK))]
-        public ApplicationUser FromUser { get; set; }
-        public string FromUserFK { get; set; }
+        [ForeignKey(nameof(TopicFK))]
+        public Topic Topic { get; set; }
+        public int TopicFK { get; set; }
     }
 }

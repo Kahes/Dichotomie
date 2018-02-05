@@ -26,13 +26,16 @@ namespace DichotomieWeb.Pages.Forum.Replies
 
         public int TopicId { get; set; }
         public IList<Reply> Replies { get;set; }
+        public IList<Topic> topic { get; set; }
+        public IList<Reputation> Reputations { get; set; }
         public IList<SelectListItem> ReputationList { get; set; }
+        public bool Voted { get; set; }
+        public float averagenote { get; set; }
 
-        public async Task OnGetAsync(int topicId, int votevalue, int replyid)
+        public async Task OnGetAsync(int topicId, string votevalue)
         {
-            ReputationList = new List<SelectListItem>();
-
             TopicId = topicId;
+            ReputationList = new List<SelectListItem>();
             Replies = await _context.Replies
                 .Include(r => r.Topic)
                 .Include(r => r.User)
@@ -40,30 +43,41 @@ namespace DichotomieWeb.Pages.Forum.Replies
                 .OrderBy(r => r.CreationDate)
                 .ToListAsync();
 
-            ReputationList.Add(new SelectListItem { Value = "", Text = "" });
+            topic = await _context.Topics
+                .Where(t => t.TopicId == TopicId)
+                .ToListAsync();
+
+            Reputations = await _context.Reputations
+                .Include(u => u.User)
+                .Where(t => t.TopicFK == TopicId && t.UserFK == _userManager.GetUserId(User))
+                .ToListAsync();
+
+            if (Reputations.Count > 0)
+            {
+                averagenote = 0;
+                foreach (Reputation rep in Reputations)
+                {
+                    averagenote += rep.MarkValue;
+                }
+                averagenote = averagenote / Reputations.Count;
+            }
+
+            ReputationList.Add(new SelectListItem { Value = "no", Text = "" });
             for (int i = 0; i <= 5; i++)
             {
                 ReputationList.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() });
             }
 
-            if (votevalue != 0 && replyid != 0)         
+            if (votevalue == "no" || votevalue != null)
+            {
+                Reputation rep = new Reputation
                 {
-                    ApplicationUser usertmp = new ApplicationUser();
-                    foreach (Reply reply in Replies)
-                    {
-                        if (reply.ReplieId == replyid)
-                        {
-                            usertmp = reply.User; 
-                        }
-                    }
-                    Reputation rep = new Reputation
-                    {
-                        User = usertmp,
-                        FromUser = await _userManager.GetUserAsync(User),
-                        MarkValue = votevalue,
-                    };
-                    _context.Reputations.Add(rep);
-                    _context.SaveChanges();
+                    User = await _userManager.GetUserAsync(User),
+                    MarkValue = Int32.Parse(votevalue),
+                    Topic = topic.FirstOrDefault(),
+                };
+                _context.Reputations.Add(rep);
+                _context.SaveChanges();
             }
         }
     }

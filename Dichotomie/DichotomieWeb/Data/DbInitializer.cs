@@ -212,18 +212,19 @@ namespace DichotomieWeb.Data
                 {
                     var reputations = new List<Reputation>();
                     var usersArrays = context.Users.ToArray();
+                    var topicarray = context.Topics.ToArray();
                     int randomNumberReputation = new Random().Next(minReputation, maxReputation);
                     int randomNumberUserGenerator = new Random().Next(0, usersArrays.Count() - 1);
                     var randomUsers = usersArrays[randomNumberUserGenerator];
-                    int randomNumberUserGeneratorBIS = new Random().Next(0, usersArrays.Count() - 1);
-                    var randomUsersBIS = usersArrays[randomNumberUserGeneratorBIS];
+                    var randomNumberTopicGenerator = new Random().Next(0, topicarray.Count() - 1);
+                    var randomTopic = topicarray[randomNumberTopicGenerator];
 
                     for (var i = 0; i < randomNumberReputation; i++)
                     {
                         var reputation = new Reputation
                         {
                             User = randomUsers,
-                            FromUser = randomUsersBIS,
+                            Topic = randomTopic,
                             MarkValue = new Random().Next(0, 5),
                         };
                         reputations.Add(reputation);

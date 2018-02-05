@@ -24,9 +24,12 @@ namespace DichotomieWeb.Pages.Forum.Topics
 
         public int CategoryId { get; set; }
         public IList<Topic> Topics { get;set; }
+        public IList<SelectListItem> ReputationList { get; set; }
 
         public async Task OnGetAsync(int categoryId)
         {
+            ReputationList = new List<SelectListItem>();
+
             CategoryId = categoryId;
             
             Topics = await _context.Topics

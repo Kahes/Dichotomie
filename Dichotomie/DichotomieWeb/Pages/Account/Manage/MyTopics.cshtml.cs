@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dichotomie.Models;
 using DichotomieWeb.Data;
+using DichotomieWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,6 +25,8 @@ namespace DichotomieWeb.Pages.Account.Manage
         }
 
         public IList<Topic> Topics { get; set; }
+        public IList<Reputation> Reputations { get; set; }
+        public float averagenote { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -34,6 +37,30 @@ namespace DichotomieWeb.Pages.Account.Manage
                 .OrderByDescending(t => t.CreationDate)
                 .Where(x => x.UserFK == user.Id)
                 .ToListAsync();
+
+            List<Reputation> Rep = new List<Reputation>();
+            foreach (Topic topic in Topics)
+            {
+                Reputations = await _context.Reputations
+                .Include(u => u.User)
+                .Where(t => t.TopicFK == topic.TopicId)
+                .ToListAsync();
+
+                foreach (Reputation rep in Reputations)
+                {
+                    Rep.Add(rep);
+                }
+            }
+
+            if (Reputations.Count > 0)
+            {
+                averagenote = 0;
+                foreach (Reputation rep in Reputations)
+                {
+                    averagenote += rep.MarkValue;
+                }
+                averagenote = averagenote / Reputations.Count;
+            }
         }
     }
 }
