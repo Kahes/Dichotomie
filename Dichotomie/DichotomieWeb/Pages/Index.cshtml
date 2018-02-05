@@ -6,38 +6,48 @@
 
 <h2>Homepage</h2>
 
-<table class="table">
+    <span>News</span>
+    @foreach (var news in Model.News)
+    {
+    <h1>
+        @news.Title
+    </h1>
+    <div>
+        @news.Content
+    </div>
+    }
     <span>Recent posts</span>
-    <thead>
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Replies
-            </th>
-            <th>
-                Last Reply By
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var topic in Model.Topics)
-        {
-
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    <a asp-page="/Forum/Replies/Index" asp-route-topicId="@topic.TopicId">@Html.DisplayFor(modelItem => topic.Title)</a>
-                </td>
-                <td>
-                    Replies : @Html.DisplayFor(modelItem => topic.Replies.Count)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().User.UserName)
-                    @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().CreationDate)
-                </td>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Replies
+                </th>
+                <th>
+                    Last Reply By
+                </th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var topic in Model.Topics)
+            {
+
+                <tr>
+                    <td>
+                        <a asp-page="/Forum/Replies/Index" asp-route-topicId="@topic.TopicId">@Html.DisplayFor(modelItem => topic.Title)</a>
+                    </td>
+                    <td>
+                        Replies : @Html.DisplayFor(modelItem => topic.Replies.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().User.UserName)
+                        @Html.DisplayFor(modelItem => topic.Replies.FirstOrDefault().CreationDate)
+                    </td>
+                </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 

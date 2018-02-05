@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dichotomie.Models;
 using DichotomieWeb.Data;
 using Microsoft.EntityFrameworkCore;
+using DichotomieWeb.Models;
 
 namespace DichotomieWeb.Pages
 {
@@ -20,6 +21,7 @@ namespace DichotomieWeb.Pages
         }
 
         public List<Topic> Topics;
+        public List<HomeNews> News;
 
         public async Task OnGetAsync()
         {
@@ -29,6 +31,8 @@ namespace DichotomieWeb.Pages
                 .OrderByDescending(t => t.CreationDate)
                 .Take(5)
                 .ToListAsync();
+
+            News = await _context.HomeNews.ToListAsync();
         }
     }
 }

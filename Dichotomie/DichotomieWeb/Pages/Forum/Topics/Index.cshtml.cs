@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dichotomie.Models;
 using DichotomieWeb.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DichotomieWeb.Pages.Forum.Topics
 {
@@ -27,7 +28,7 @@ namespace DichotomieWeb.Pages.Forum.Topics
         public async Task OnGetAsync(int categoryId)
         {
             CategoryId = categoryId;
-
+            
             Topics = await _context.Topics
                 .Include(t => t.Replies)
                     .ThenInclude(r => r.User)

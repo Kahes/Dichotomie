@@ -11,9 +11,10 @@ using System;
 namespace DichotomieWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180205172905_News")]
+    partial class News
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,9 +160,9 @@ namespace DichotomieWeb.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("DichotomieWeb.Models.HomeNews", b =>
+            modelBuilder.Entity("DichotomieWeb.Models.News", b =>
                 {
-                    b.Property<int>("HomenewsId")
+                    b.Property<int>("TopicId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content")
@@ -172,9 +173,9 @@ namespace DichotomieWeb.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.HasKey("HomenewsId");
+                    b.HasKey("TopicId");
 
-                    b.ToTable("HomeNews");
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("DichotomieWeb.Models.Reputation", b =>

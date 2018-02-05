@@ -11,9 +11,10 @@ using System;
 namespace DichotomieWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180204154145_ReputationUpdate")]
+    partial class ReputationUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,30 +160,10 @@ namespace DichotomieWeb.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("DichotomieWeb.Models.HomeNews", b =>
-                {
-                    b.Property<int>("HomenewsId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.HasKey("HomenewsId");
-
-                    b.ToTable("HomeNews");
-                });
-
             modelBuilder.Entity("DichotomieWeb.Models.Reputation", b =>
                 {
                     b.Property<int>("ReputationId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FromUserFK");
 
                     b.Property<int>("MarkValue")
                         .HasMaxLength(1);
@@ -190,8 +171,6 @@ namespace DichotomieWeb.Data.Migrations
                     b.Property<string>("UserFK");
 
                     b.HasKey("ReputationId");
-
-                    b.HasIndex("FromUserFK");
 
                     b.HasIndex("UserFK");
 
@@ -339,10 +318,6 @@ namespace DichotomieWeb.Data.Migrations
 
             modelBuilder.Entity("DichotomieWeb.Models.Reputation", b =>
                 {
-                    b.HasOne("DichotomieWeb.Data.ApplicationUser", "FromUser")
-                        .WithMany()
-                        .HasForeignKey("FromUserFK");
-
                     b.HasOne("DichotomieWeb.Data.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserFK");

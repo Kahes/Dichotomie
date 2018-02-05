@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Dichotomie.Models;
+using DichotomieWeb.Models;
 
 namespace DichotomieWeb.Data
 {
@@ -18,6 +19,8 @@ namespace DichotomieWeb.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Reply> Replies { get; set; }
+        public DbSet<Reputation> Reputations { get; set; }
+        public DbSet<HomeNews> HomeNews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

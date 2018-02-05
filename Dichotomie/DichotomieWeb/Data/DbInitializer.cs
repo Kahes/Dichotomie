@@ -1,4 +1,5 @@
 ﻿using Dichotomie.Models;
+using DichotomieWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,9 @@ namespace DichotomieWeb.Data
 
         private static int minReplies = 1;
         private static int maxReplies = 10;
+
+        private static int minReputation = 10;
+        private static int maxReputation = 25;
 
         public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -202,6 +206,54 @@ namespace DichotomieWeb.Data
                     context.Replies.Add(reply);
                 }
                 context.SaveChanges();
+
+                // REPUTATION
+                if (!context.Reputations.Any())
+                {
+                    var reputations = new List<Reputation>();
+                    var usersArrays = context.Users.ToArray();
+                    int randomNumberReputation = new Random().Next(minReputation, maxReputation);
+                    int randomNumberUserGenerator = new Random().Next(0, usersArrays.Count() - 1);
+                    var randomUsers = usersArrays[randomNumberUserGenerator];
+                    int randomNumberUserGeneratorBIS = new Random().Next(0, usersArrays.Count() - 1);
+                    var randomUsersBIS = usersArrays[randomNumberUserGeneratorBIS];
+
+                    for (var i = 0; i < randomNumberReputation; i++)
+                    {
+                        var reputation = new Reputation
+                        {
+                            User = randomUsers,
+                            FromUser = randomUsersBIS,
+                            MarkValue = new Random().Next(0, 5),
+                        };
+                        reputations.Add(reputation);
+                    }
+                    foreach(Reputation rep in reputations)
+                    {
+                        context.Reputations.Add(rep);
+                    }
+                    context.SaveChanges();
+                }
+
+                // NEWS
+                if (!context.HomeNews.Any())
+                {
+                    var news = new List<HomeNews>();
+                    for (var i = 0; i < 5; i++)
+                    {
+                        var newstoadd = new HomeNews
+                        {
+                            Title = $"TITLE{i}",
+                            Content = $"This text is here to prove that this news is fully working. If you don't trust me just look at how awesome it is. A lot of informations in one simple text. I'm the number : {i}"
+                        };
+                        news.Add(newstoadd);
+                    }
+                    foreach (HomeNews newsfor in news)
+                    {
+                        context.HomeNews.Add(newsfor);
+                    }
+                    context.SaveChanges();
+                }
             }
         }
     }

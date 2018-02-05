@@ -27,6 +27,12 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => reply.User.UserName)
+                    <form>
+                        <select asp-items="Model.ReputationList" name="votevalue"></select>
+                        <input value="@reply.ReplieId" name="replyid" hidden="hidden" />
+                        <input value="@Model.TopicId" name="topicId" hidden="hidden" />
+                        <input type="submit" value="Vote" />
+                    </form>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => reply.MainContent)
