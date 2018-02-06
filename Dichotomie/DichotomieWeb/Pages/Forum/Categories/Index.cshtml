@@ -7,6 +7,9 @@
 
 <h2>Categories</h2>
 
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
 <table class="table">
     <tbody>
         @foreach (var category in Model.Categories)
@@ -14,6 +17,11 @@
             <tr>
                 <th>
                     @Html.DisplayFor(modelItem => category.Name)
+                    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                        <a asp-page="./Edit" asp-route-id="@category.CategoryId">Edit</a>
+                        <a asp-page="./Delete" asp-route-id="@category.CategoryId">Delete</a>
+                    }
                 </th>
                 <th></th>
                 <th>Last Topic By</th>
@@ -23,6 +31,11 @@
                 <tr>
                     <td>
                         <a asp-page="/Forum/Topics/Index" asp-route-categoryId="@subCategory.CategoryId">@subCategory.Name</a>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                        {
+                            <a asp-page="./Edit" asp-route-id="@subCategory.CategoryId">Edit</a>
+                            <a asp-page="./Delete" asp-route-id="@subCategory.CategoryId">Delete</a>
+                        }
                     </td>
                     <td>Topics : @Html.DisplayFor(modelItem => subCategory.Topics.Count)</td>
                     <td>
