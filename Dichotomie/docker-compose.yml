@@ -1,8 +1,32 @@
 version: '3'
 
 services:
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB : db_dichotomie
+      POSTGRES_PASSWORD: admin
+    volumes:
+       - pgdata:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
   dichotomieweb:
     image: dichotomieweb
     build:
       context: .
       dockerfile: DichotomieWeb/Dockerfile
+    links:
+      - db
+    depends_on:
+       - "db"
+    networks:
+      - mynetwork
+volumes:
+  pgdata:
+networks:
+  mynetwork:
+     driver: bridge
