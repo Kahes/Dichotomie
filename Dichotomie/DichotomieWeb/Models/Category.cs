@@ -7,6 +7,7 @@ namespace Dichotomie.Models
 {
     public class Category
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int CategoryId { get; set; }
 
